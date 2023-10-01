@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const GenericScheduleView = ({ route }) => {
+const GenericSchedule = ({ route }) => {
   console.log('aaaaaa', route.params)
   const { items, title } = route.params;
   const [schedules, setSchedules] = useState([]);
@@ -126,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenericScheduleView;
+export default GenericSchedule;
