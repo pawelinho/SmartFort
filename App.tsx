@@ -7,6 +7,10 @@
 
 import React from 'react';
 import type {PropsWithChildren} from 'react';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {NavigationContainer} from '@react-navigation/native';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -24,6 +28,9 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import DevicesListView from './ThermostatSchedule';
+import GenericScheduleView from './GenericScheduleView';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -55,7 +62,18 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
-function App(): JSX.Element {
+const Stack = createNativeStackNavigator();
+
+function ThermostatScreen() {
+  return (
+    <Stack.Navigator initialRouteName="Devices">
+      <Stack.Screen name="Devices" component={DevicesListView} />
+      <Stack.Screen name="DeviceScheduler" component={GenericScheduleView} />
+    </Stack.Navigator>
+  );
+}
+
+function HomeScreen() {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -96,6 +114,37 @@ function App(): JSX.Element {
   );
 }
 
+const Tab = createBottomTabNavigator();
+
+function App(): JSX.Element {
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons name="note" color={color} size={size} />
+            ),
+          }}
+          // initialParams={{user: user.name}}
+        />
+        <Tab.Screen
+          name="Thermostat"
+          component={ThermostatScreen}
+          options={{
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons name="note" color={color} size={size} />
+            ),
+          }}
+          // initialParams={{user: user.name}}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
+
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
@@ -112,6 +161,10 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: '700',
+  },
+  container: {
+    flex: 1,
+    padding: 16,
   },
 });
 
