@@ -29,8 +29,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import DevicesListView from './ThermostatSchedule';
-import GenericScheduleView from './GenericScheduleView';
+import DevicesListView from './screens/DeviceListView';
+import GenericSchedule from './components/GenericSchedule';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -68,7 +68,7 @@ function ThermostatScreen() {
   return (
     <Stack.Navigator initialRouteName="Devices">
       <Stack.Screen name="Devices" component={DevicesListView} />
-      <Stack.Screen name="DeviceScheduler" component={GenericScheduleView} />
+      <Stack.Screen name="DeviceScheduler" component={GenericSchedule} />
     </Stack.Navigator>
   );
 }
