@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
+import { EventEmitterContext } from '../EventEmitterContext';
 
 const GenericSchedule = ({ route }) => {
-  console.log('aaaaaa', route.params)
+  
   const { items, title } = route.params;
+  const { emit } = useContext(EventEmitterContext); // Consume Context to use emit
   const [schedules, setSchedules] = useState([]);
   const [selectedDay, setSelectedDay] = useState(items.days[0]);
   const [selectedTime, setSelectedTime] = useState(items.times[0]);
@@ -20,6 +22,10 @@ const GenericSchedule = ({ route }) => {
   const addSchedule = () => {
     const schedule = { id: Date.now(), day: selectedDay, time: selectedTime, value };
     setSchedules([...schedules, schedule]);
+    emit('scheduleSet', {
+      device: title,
+      schedule,
+    });
   };
 
   const removeSchedule = (id) => {

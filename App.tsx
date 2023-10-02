@@ -21,16 +21,11 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {Colors, Header} from 'react-native/Libraries/NewAppScreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import DevicesListView from './screens/DeviceListView';
+import DeviceListView from './screens/DeviceListView';
 import GenericSchedule from './components/GenericSchedule';
+import {EventEmitterProvider} from './EventEmitterContext';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -66,10 +61,12 @@ const Stack = createNativeStackNavigator();
 
 function ThermostatScreen() {
   return (
-    <Stack.Navigator initialRouteName="Devices">
-      <Stack.Screen name="Devices" component={DevicesListView} />
-      <Stack.Screen name="DeviceScheduler" component={GenericSchedule} />
-    </Stack.Navigator>
+    <EventEmitterProvider>
+      <Stack.Navigator initialRouteName="Devices">
+        <Stack.Screen name="Devices" component={DeviceListView} />
+        <Stack.Screen name="DeviceScheduler" component={GenericSchedule} />
+      </Stack.Navigator>
+    </EventEmitterProvider>
   );
 }
 
@@ -93,22 +90,7 @@ function HomeScreen() {
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
+          }}></View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -128,7 +110,6 @@ function App(): JSX.Element {
               <MaterialCommunityIcons name="note" color={color} size={size} />
             ),
           }}
-          // initialParams={{user: user.name}}
         />
         <Tab.Screen
           name="Thermostat"
@@ -138,7 +119,6 @@ function App(): JSX.Element {
               <MaterialCommunityIcons name="note" color={color} size={size} />
             ),
           }}
-          // initialParams={{user: user.name}}
         />
       </Tab.Navigator>
     </NavigationContainer>
